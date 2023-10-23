@@ -28,7 +28,9 @@ import java.util.List;
 
   @Override public void getItem(Int32Value request,
       StreamObserver<Item> responseObserver) {
-    Item item = items.stream().filter(findItem -> findItem.getId() == request.getValue()).findFirst().orElseThrow();
+    Item item = items.stream()
+        .filter(findItem -> findItem.getId() == request.getValue()).findFirst()
+        .orElseThrow();
 
     responseObserver.onNext(item);
     responseObserver.onCompleted();
