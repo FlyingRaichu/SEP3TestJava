@@ -6,47 +6,51 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import via.sep4.protobuf.Item;
 import via.sep4.protobuf.ItemServiceGrpc;
+import via.sep4.sep4test.database.domain.DomainItem;
+import via.sep4.sep4test.database.repository.ItemRepository;
+import via.sep4.sep4test.mappers.ItemMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @GrpcService public class ItemService
     extends ItemServiceGrpc.ItemServiceImplBase
 {
-  private List<Item> items = new ArrayList<>(List.of(
-      Item.newBuilder().setId(1).setTitle("Red yarn").setDescription("Red yarn")
-          .setPrice(10.10).build(),
+  private ItemRepository itemRepository;
+  private final ItemMapper mapper = ItemMapper.INSTANCE;
 
-      Item.newBuilder().setId(1).setTitle("Yellow yarn")
-          .setDescription("Yellow yarn").setPrice(10.10).build(),
 
-      Item.newBuilder().setId(1).setTitle("Green yarn")
-          .setDescription("Green yarn").setPrice(10.10).build(),
+  public ItemService(ItemRepository itemRepository){
+    this.itemRepository = itemRepository;
+  }
 
-      Item.newBuilder().setId(1).setTitle("Blue yarn")
-          .setDescription("Blue yarn").setPrice(10.10).build()));
 
   @Override public void getItem(Int32Value request,
       StreamObserver<Item> responseObserver) {
-    Item item = items.stream()
-        .filter(findItem -> findItem.getId() == request.getValue()).findFirst()
-        .orElseThrow();
+      DomainItem domainItem = itemRepository.findById(request.getValue()).orElseThrow(RuntimeException::new);
 
-    responseObserver.onNext(item);
+      Item protoItem = mapper.toProto(domainItem);
+
+    responseObserver.onNext(protoItem);
     responseObserver.onCompleted();
   }
 
   @Override public void getAllItems(Empty request,
       StreamObserver<Item> responseObserver) {
-    for (Item item : items) {
-      responseObserver.onNext(item);
+    List<DomainItem> domainItems = itemRepository.findAll();
+
+    for (DomainItem domainItem : domainItems){
+      Item protoItem = mapper.toProto(domainItem);
+      responseObserver.onNext(protoItem);
     }
+
     responseObserver.onCompleted();
   }
 
   @Override public void addItem(Item request,
       StreamObserver<Empty> responseObserver) {
-    items.add(request);
+    DomainItem domainItem = mapper.toEntity(request);
+
+    itemRepository.save(domainItem);
 
     responseObserver.onNext(Empty.newBuilder().build());
     responseObserver.onCompleted();
