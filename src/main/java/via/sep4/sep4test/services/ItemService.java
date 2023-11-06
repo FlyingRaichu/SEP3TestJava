@@ -23,7 +23,6 @@ import java.util.List;
     this.itemRepository = itemRepository;
   }
 
-
   @Override public void getItem(Int32Value request,
       StreamObserver<Item> responseObserver) {
       DomainItem domainItem = itemRepository.findById(request.getValue()).orElseThrow(RuntimeException::new);

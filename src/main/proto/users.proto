@@ -18,5 +18,6 @@ message User {
   string username = 2;
   string password = 3;
   string email = 4;
+  string role = 5;
   //TODO Add the required fields in here
 }
