@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 @Entity
 @Table
-@IdClass(DomainOrderItem.class)
+//@IdClass(DomainOrderItem.class)
 public class DomainOrderItem implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 
     //todo this could be calculate and potentially gotten from the list
     @Column
     private int amount;
-
     @OneToOne
     @JoinColumn(name = "itemId")
     private DomainItem item;

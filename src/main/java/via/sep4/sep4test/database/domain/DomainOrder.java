@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 @Entity
 @Table
-@IdClass(DomainOrder.class)
+//@IdClass(DomainOrder.class)
 public class DomainOrder implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 

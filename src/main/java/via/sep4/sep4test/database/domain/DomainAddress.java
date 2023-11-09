@@ -6,9 +6,11 @@ import java.io.Serializable;
 
 @Entity
 @Table
-@IdClass(DomainAddress.class)
+//used for composite keys
+//@IdClass(DomainAddress.class)
 public class DomainAddress implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 

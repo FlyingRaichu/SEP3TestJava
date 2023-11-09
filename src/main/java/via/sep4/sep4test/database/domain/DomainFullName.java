@@ -6,9 +6,10 @@ import java.io.Serializable;
 
 @Entity
 @Table
-@IdClass(DomainFullName.class)
+//@IdClass(DomainFullName.class)
 public class DomainFullName implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 

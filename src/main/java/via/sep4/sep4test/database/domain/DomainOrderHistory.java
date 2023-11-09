@@ -7,9 +7,10 @@ import java.util.List;
 
 @Entity
 @Table
-@IdClass(DomainOrderHistory.class)
+//@IdClass(DomainOrderHistory.class)
 public class DomainOrderHistory implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 

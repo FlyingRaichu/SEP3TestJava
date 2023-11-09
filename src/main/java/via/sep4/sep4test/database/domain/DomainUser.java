@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table
-@IdClass(DomainUser.class)
+//@IdClass(DomainUser.class)
 public class DomainUser implements Serializable {
     @Id
     @Column

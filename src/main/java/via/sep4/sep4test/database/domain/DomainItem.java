@@ -7,10 +7,11 @@ import java.util.List;
 
 @Entity
 @Table
-@IdClass(DomainItem.class)
+//@IdClass(DomainItem.class)
 public class DomainItem implements Serializable
 {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
   private int id;
 
