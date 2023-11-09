@@ -11,6 +11,7 @@ public class DomainReview implements Serializable {
     @Id
     @Column
     private int id;
+
     @Column
     private String title;
     @Column
