@@ -54,4 +54,25 @@ import java.util.List;
     responseObserver.onNext(Empty.newBuilder().build());
     responseObserver.onCompleted();
   }
+
+  @Override public void updateItem(Item request,
+      StreamObserver<Empty> responseObserver) {
+    DomainItem domainItem = mapper.toEntity(request);
+
+    itemRepository.deleteById(domainItem.getId());
+    itemRepository.save(domainItem);
+
+    responseObserver.onNext(Empty.newBuilder().build());
+    responseObserver.onCompleted();
+  }
+
+  @Override public void deleteItem(Item request,
+      StreamObserver<Empty> responseObserver) {
+    DomainItem domainItem = mapper.toEntity(request);
+
+    itemRepository.delete(domainItem);
+
+    responseObserver.onNext(Empty.newBuilder().build());
+    responseObserver.onCompleted();
+  }
 }
