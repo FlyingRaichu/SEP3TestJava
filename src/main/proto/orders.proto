@@ -2,16 +2,26 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "orderItems.proto";
+import "addresses.proto";
+import "fullNames.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "OrderProto";
 
-service ItemService {
+service OrderService {
+  rpc getOrder(google.protobuf.Int32Value) returns (Order) {};
+  rpc getOrdersByUser(google.protobuf.Empty) returns (stream Order) {};
   rpc addOrder(Order) returns (google.protobuf.Empty) {};
+  rpc updateOrder(Order) returns (google.protobuf.Empty) {};
+  rpc deleteOrder(Order) returns (google.protobuf.Empty) {};
 }
 
 message Order {
   int32 id = 1;
-  //TODO Add the required fields in here
+  string username = 2;
+  Address address = 3;
+  FullName fullName = 4;
+  double Price = 5;
 }

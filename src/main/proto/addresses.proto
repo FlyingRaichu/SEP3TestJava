@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "via.sep4.protobuf";
+option java_outer_classname = "AddressProto";
+
+service AddressService {
+  rpc getAddress(google.protobuf.Int32Value) returns (Address);
+  rpc addAddress(Address) returns (google.protobuf.Empty) {};
+  rpc updateAddress(Address) returns (google.protobuf.Empty) {};
+  rpc deleteAddress(Address) returns (google.protobuf.Empty) {};
+}
+
+message Address {
+  int32 id = 1;
+  string address = 2;
+  string apartmentNr = 3;
+  int32 postalCode = 4;
+  string city = 5;
+  //TODO Add the required fields in here
+}

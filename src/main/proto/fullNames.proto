@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "via.sep4.protobuf";
+option java_outer_classname = "FullNameProto";
+
+service FullNameService {
+  rpc getFullName(google.protobuf.Int32Value) returns (FullName) {};
+  rpc addFullName(FullName) returns (google.protobuf.Empty) {};
+  rpc updateFullName(FullName) returns (google.protobuf.Empty) {};
+  rpc deleteFullName(FullName) returns (google.protobuf.Empty) {};
+}
+
+message FullName {
+  int32 id = 1;
+  string firstName = 2;
+  string middleName = 3;
+  string lastName = 4;
+}

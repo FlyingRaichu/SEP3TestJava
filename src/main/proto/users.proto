@@ -2,22 +2,24 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "reviews.proto";
+import "orderHistories.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "UsersProto";
 
 service UserService {
-  rpc getUser(google.protobuf.Int32Value) returns (User) {};
+  //needs to be string bc username is the unique value
+  rpc getUser(google.protobuf.StringValue) returns (User) {};
   rpc getAllUsers(google.protobuf.Empty) returns (stream User) {};
   rpc usernameContains(google.protobuf.StringValue) returns (User) {};
 }
 
 message User {
-  int32 id = 1;
-  string username = 2;
-  string password = 3;
-  string email = 4;
-  string role = 5;
-  //TODO Add the required fields in here
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string role = 4;
+  OrderHistory orderHistory = 5;
 }

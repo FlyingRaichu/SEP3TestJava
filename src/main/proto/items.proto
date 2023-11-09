@@ -2,6 +2,7 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "reviews.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
@@ -22,5 +23,5 @@ message Item {
   string description = 4;
   double price = 5;
   int32 stock = 6;
-  //TODO Add the required fields in here
+  repeated Review reviews = 7;
 }
