@@ -49,6 +49,7 @@ import java.util.List;
       StreamObserver<Empty> responseObserver) {
     DomainItem domainItem = mapper.toEntity(request);
 
+
     itemRepository.save(domainItem);
 
     responseObserver.onNext(Empty.newBuilder().build());
@@ -57,9 +58,11 @@ import java.util.List;
 
   @Override public void updateItem(Item request,
       StreamObserver<Empty> responseObserver) {
+    Int32Value id = Int32Value.of(request.getId());
     DomainItem domainItem = mapper.toEntity(request);
+    DomainItem itemToDelete = itemRepository.findById(id.getValue()).orElseThrow(RuntimeException::new);
 
-    itemRepository.deleteById(domainItem.getId());
+    itemRepository.delete(itemToDelete);
     itemRepository.save(domainItem);
 
     responseObserver.onNext(Empty.newBuilder().build());
