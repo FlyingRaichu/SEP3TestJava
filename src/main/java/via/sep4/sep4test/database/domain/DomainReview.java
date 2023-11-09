@@ -17,13 +17,13 @@ public class DomainReview implements Serializable {
     private String content;
     @ManyToOne
     @JoinColumn(name = "userId")
-    private DomainUser user;
+    private DomainUser userId;
 
     public DomainReview(int id, String title, String content, DomainUser user) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.user = user;
+        this.userId = user;
     }
 
     public DomainReview() {
@@ -54,10 +54,10 @@ public class DomainReview implements Serializable {
     }
 
     public DomainUser getUser() {
-        return user;
+        return userId;
     }
 
     public void setUser(DomainUser user) {
-        this.user = user;
+        this.userId = user;
     }
 }

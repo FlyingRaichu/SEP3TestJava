@@ -14,21 +14,21 @@ import java.util.List;
     extends UserServiceGrpc.UserServiceImplBase
 {
   private static List<User> USERS = List.of(
-      User.newBuilder().setId(1).setUsername("GoshoGranatata")
+      User.newBuilder().setUsername("GoshoGranatata")
           .setPassword("123123as").setEmail("GoshoGranatata@gmail.com")
           .build(),
 
 
-      User.newBuilder().setId(1).setUsername("MishoAvtomata")
+      User.newBuilder().setUsername("MishoAvtomata")
           .setPassword("123123as").setEmail("Mishoavtomata@gmail.com")
           .build()
 
   );
 
-  @Override public void getUser(Int32Value request,
+  @Override public void getUser(StringValue request,
       StreamObserver<User> responseObserver) {
     User user = USERS.stream()
-        .filter(findUser -> request.getValue() == findUser.getId()).findFirst()
+        .filter(findUser -> request.getValue().equals(findUser.getUsername())).findFirst()
         .orElseThrow();
 
     responseObserver.onNext(user);
