@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 @Entity
 @Table
-//@IdClass(DomainOrderItem.class)
 public class DomainOrderItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

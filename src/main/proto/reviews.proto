@@ -9,7 +9,7 @@ option java_outer_classname = "ReviewProto";
 
 service ReviewService {
   rpc getReview(google.protobuf.Int32Value) returns (Review) {};
-  rpc getReviewByUser(google.protobuf.StringValue) returns (Review) {};
+  rpc getReviewsByUser(google.protobuf.StringValue) returns (Review) {};
   rpc getAllReviews(google.protobuf.Empty) returns (stream Review) {};
   rpc addReview(Review) returns (google.protobuf.Empty) {};
   rpc updateReview(Review) returns (google.protobuf.Empty) {};

@@ -11,7 +11,7 @@ option java_outer_classname = "ItemsProto";
 service ItemService {
   rpc getItem(google.protobuf.Int32Value) returns (Item) {};
   rpc getAllItems(google.protobuf.Empty) returns (stream Item) {};
-  rpc addItem(Item) returns (google.protobuf.Empty) {};
+  rpc addItem(Item) returns (ItemResponse) {};
   rpc updateItem(Item) returns (google.protobuf.Empty) {};
   rpc deleteItem(Item) returns (google.protobuf.Empty) {};
 }
@@ -24,4 +24,8 @@ message Item {
   double price = 5;
   int32 stock = 6;
   repeated Review reviews = 7;
+}
+
+message ItemResponse{
+  string response = 1;
 }

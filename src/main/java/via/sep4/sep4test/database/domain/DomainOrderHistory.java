@@ -15,7 +15,7 @@ public class DomainOrderHistory implements Serializable {
     private int id;
 
     @OneToMany
-    @JoinColumn(name = "orderIds")
+    @JoinColumn(name = "orderHistoryId")
     private List<DomainOrder> orders;
 
     public DomainOrderHistory(int id, List<DomainOrder> orders) {

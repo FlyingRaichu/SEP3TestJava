@@ -5,6 +5,7 @@ import com.google.protobuf.Int32Value;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import via.sep4.protobuf.Item;
+import via.sep4.protobuf.ItemResponse;
 import via.sep4.protobuf.ItemServiceGrpc;
 import via.sep4.sep4test.database.domain.DomainItem;
 import via.sep4.sep4test.database.repository.ItemRepository;
@@ -45,13 +46,17 @@ import java.util.List;
     responseObserver.onCompleted();
   }
 
-  @Override public void addItem(Item request,
-      StreamObserver<Empty> responseObserver) {
+  @Override public void addItem(Item request, StreamObserver<ItemResponse> responseObserver) {
     DomainItem domainItem = mapper.toEntity(request);
+    ItemResponse.Builder response = ItemResponse.newBuilder();
 
-    itemRepository.save(domainItem);
+    if(itemRepository.findById(request.getId()).isEmpty()){
+        itemRepository.save(domainItem);
+        responseObserver.onNext(response.setResponse("Item Added").build());
+    }else {
+          responseObserver.onNext(response.setResponse("The item with the id alredy exists").build());
+    }
 
-    responseObserver.onNext(Empty.newBuilder().build());
     responseObserver.onCompleted();
   }
 

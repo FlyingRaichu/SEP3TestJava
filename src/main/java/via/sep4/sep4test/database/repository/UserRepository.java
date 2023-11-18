@@ -6,4 +6,5 @@ import via.sep4.sep4test.database.domain.DomainUser;
 
 @Repository
 public interface UserRepository extends JpaRepository<DomainUser, Integer> {
+    DomainUser findDomainUserByUsername(String username);
 }

@@ -13,7 +13,8 @@ option java_outer_classname = "OrderProto";
 service OrderService {
   rpc getOrder(google.protobuf.Int32Value) returns (Order) {};
   rpc getOrdersByUser(google.protobuf.Empty) returns (stream Order) {};
-  rpc addOrder(Order) returns (google.protobuf.Empty) {};
+  rpc getAllOrders(google.protobuf.Empty) returns (stream Order);
+  rpc addOrder(Order) returns (OrderResponse) {};
   rpc updateOrder(Order) returns (google.protobuf.Empty) {};
   rpc deleteOrder(Order) returns (google.protobuf.Empty) {};
 }
@@ -24,4 +25,9 @@ message Order {
   Address address = 3;
   FullName fullName = 4;
   double Price = 5;
+  repeated OrderItem orderItems = 6;
+}
+
+message OrderResponse{
+  string response = 1;
 }

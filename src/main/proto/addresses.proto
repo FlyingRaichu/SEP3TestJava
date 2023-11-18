@@ -8,9 +8,9 @@ option java_outer_classname = "AddressProto";
 
 service AddressService {
   rpc getAddress(google.protobuf.Int32Value) returns (Address);
-  rpc addAddress(Address) returns (google.protobuf.Empty) {};
-  rpc updateAddress(Address) returns (google.protobuf.Empty) {};
-  rpc deleteAddress(Address) returns (google.protobuf.Empty) {};
+  rpc addAddress(Address) returns (AddressResponse) {};
+  rpc updateAddress(Address) returns (AddressResponse) {};
+  rpc deleteAddress(Address) returns (AddressResponse) {};
 }
 
 message Address {
@@ -19,5 +19,8 @@ message Address {
   string apartmentNr = 3;
   int32 postalCode = 4;
   string city = 5;
-  //TODO Add the required fields in here
+}
+
+message AddressResponse{
+  string response = 1;
 }

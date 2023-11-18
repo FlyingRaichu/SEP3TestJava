@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import via.sep4.protobuf.OrderHistory;
 import via.sep4.sep4test.database.domain.DomainOrderHistory;
 
-@Mapper
+@Mapper(uses = {OrderMapper.class})
 public interface OrderHistoryMapper {
     OrderHistoryMapper INSTANCE = Mappers.getMapper(OrderHistoryMapper.class);
 

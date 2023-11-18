@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Table
-//@IdClass(DomainItem.class)
 public class DomainItem implements Serializable
 {
   @Id
@@ -26,7 +25,7 @@ public class DomainItem implements Serializable
   @Column
   private int stock;
   @OneToMany
-  @JoinColumn(name = "reviewIds")
+  @JoinColumn(name = "itemId")
   private List<DomainReview> reviews;
 
   public DomainItem(int id, String title, String manufacture, String description, double price, int stock, List<DomainReview> reviews) {

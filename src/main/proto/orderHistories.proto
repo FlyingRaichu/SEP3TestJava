@@ -2,7 +2,6 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
-import "orders.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
@@ -16,5 +15,5 @@ service OrderHistoryService {
 
 message OrderHistory {
   int32 id= 1;
-  repeated Order orders = 2;
+  repeated int32 orderIds = 2;
 }

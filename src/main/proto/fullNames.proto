@@ -9,9 +9,9 @@ option java_outer_classname = "FullNameProto";
 
 service FullNameService {
   rpc getFullName(google.protobuf.Int32Value) returns (FullName) {};
-  rpc addFullName(FullName) returns (google.protobuf.Empty) {};
-  rpc updateFullName(FullName) returns (google.protobuf.Empty) {};
-  rpc deleteFullName(FullName) returns (google.protobuf.Empty) {};
+  rpc addFullName(FullName) returns (FullNameResponse) {};
+  rpc updateFullName(FullName) returns (FullNameResponse) {};
+  rpc deleteFullName(FullName) returns (FullNameResponse) {};
 }
 
 message FullName {
@@ -19,4 +19,8 @@ message FullName {
   string firstName = 2;
   string middleName = 3;
   string lastName = 4;
+}
+
+message FullNameResponse{
+  string response = 1;
 }

@@ -1,8 +1,10 @@
 package via.sep4.sep4test.database.domain;
 
 import jakarta.persistence.*;
+import via.sep4.protobuf.OrderItem;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table
@@ -15,21 +17,26 @@ public class DomainOrder implements Serializable {
 
     @Column
     private String username;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "addressId")
     private DomainAddress address;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fullNameId")
     private DomainFullName fullName;
     @Column
     private double price;
 
-    public DomainOrder(int id, String username, DomainAddress address, DomainFullName fullName, double price) {
+    @OneToMany
+    @JoinColumn(name = "OrderItemId")
+    private List<DomainOrderItem> orderItems;
+
+    public DomainOrder(int id, String username, DomainAddress address, DomainFullName fullName, double price, List<DomainOrderItem> orderItems) {
         this.id = id;
         this.username = username;
         this.address = address;
         this.fullName = fullName;
         this.price = price;
+        this.orderItems = orderItems;
     }
 
     public DomainOrder() {
@@ -73,5 +80,13 @@ public class DomainOrder implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List<DomainOrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<DomainOrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

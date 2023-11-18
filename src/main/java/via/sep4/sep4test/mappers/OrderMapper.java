@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import via.sep4.protobuf.Order;
 import via.sep4.sep4test.database.domain.DomainOrder;
 
-@Mapper
+@Mapper(uses = {OrderItemMapper.class, AddressMapper.class, FullNameMapper.class})
 public interface OrderMapper {
     OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
 

@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import via.sep4.protobuf.User;
 import via.sep4.sep4test.database.domain.DomainUser;
 
-@Mapper
+@Mapper(uses = {OrderHistoryMapper.class})
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
