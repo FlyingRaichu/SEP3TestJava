@@ -2,12 +2,20 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
-import "reviews.proto";
 import "orderHistories.proto";
+import "addresses.proto";
+import "fullNames.proto";
+//import "proto/orderHistories.proto";
+//import "proto/fullNames.proto";
+//import "proto/addresses.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "UsersProto";
+
+option csharp_namespace = "proto";
+
+package proto;
 
 service UserService {
   //needs to be string bc username is the unique value
@@ -22,4 +30,6 @@ message User {
   string email = 3;
   string role = 4;
   OrderHistory orderHistory = 5;
+  Address address = 6;
+  FullName fullName = 7;
 }

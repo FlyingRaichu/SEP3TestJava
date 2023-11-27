@@ -15,6 +15,8 @@ import via.sep4.sep4test.database.repository.FullNameRepository;
 import via.sep4.sep4test.mappers.AddressMapper;
 import via.sep4.sep4test.mappers.FullNameMapper;
 
+import java.util.List;
+
 @GrpcService
 public class FullNameService extends FullNameServiceGrpc.FullNameServiceImplBase {
     private FullNameRepository fullNameRepository;
@@ -50,6 +52,17 @@ public class FullNameService extends FullNameServiceGrpc.FullNameServiceImplBase
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void getAllFullNames(Empty request, StreamObserver<FullName> responseObserver) {
+        List<DomainFullName> domainFullNames = fullNameRepository.findAll();
+
+        for(DomainFullName domainFullName : domainFullNames){
+            FullName protoFullName = mapper.toProto(domainFullName);
+            responseObserver.onNext(protoFullName);
+        }
+
+        responseObserver.onCompleted();
+    }
 //    @Override
 //    public void updateFullName(FullName fullName, StreamObserver<FullNameResponse> responseObserver){
 //        //todo needs to update when requirement comes

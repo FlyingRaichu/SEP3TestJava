@@ -2,13 +2,21 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+//this is not an error, it will run in c#
 import "orderItems.proto";
 import "addresses.proto";
 import "fullNames.proto";
+//import "proto/orderItems.proto";
+//import "proto/addresses.proto";
+//import "proto/fullNames.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "OrderProto";
+
+option csharp_namespace = "proto";
+
+package proto;
 
 service OrderService {
   rpc getOrder(google.protobuf.Int32Value) returns (Order) {};

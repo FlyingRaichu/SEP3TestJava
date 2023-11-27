@@ -1,12 +1,17 @@
-
+﻿
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 import "reviews.proto";
+//import "proto/reviews.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "ItemsProto";
+
+option csharp_namespace = "proto";
+
+package proto;
 
 service ItemService {
   rpc getItem(google.protobuf.Int32Value) returns (Item) {};
@@ -23,6 +28,7 @@ message Item {
   string description = 4;
   double price = 5;
   int32 stock = 6;
+  //todo this is not implemented in the c#
   repeated Review reviews = 7;
 }
 

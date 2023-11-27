@@ -6,8 +6,13 @@ option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "AddressProto";
 
+option csharp_namespace = "proto";
+
+package proto;
+
 service AddressService {
   rpc getAddress(google.protobuf.Int32Value) returns (Address);
+  rpc getAllAddresses(google.protobuf.Empty) returns (stream Address );
   rpc addAddress(Address) returns (AddressResponse) {};
   rpc updateAddress(Address) returns (AddressResponse) {};
   rpc deleteAddress(Address) returns (AddressResponse) {};
@@ -17,7 +22,7 @@ message Address {
   int32 id = 1;
   string address = 2;
   string apartmentNr = 3;
-  int32 postalCode = 4;
+  string postalCode = 4;
   string city = 5;
 }
 

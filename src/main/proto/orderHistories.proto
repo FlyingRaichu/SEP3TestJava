@@ -7,6 +7,10 @@ option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "OrderHistoryProto";
 
+option csharp_namespace = "proto";
+
+package proto;
+
 service OrderHistoryService {
   //needs to be string bc username is the unique value
   rpc getOrderHistory(google.protobuf.Int32Value) returns (OrderHistory) {};

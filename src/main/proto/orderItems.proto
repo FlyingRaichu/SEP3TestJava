@@ -7,8 +7,13 @@ option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "OrderItemProto";
 
+option csharp_namespace = "proto";
+
+package proto;
+
 service OrderItemService {
   rpc getOrderItem(google.protobuf.Int32Value) returns (OrderItem) {};
+  rpc getAllOrderItems(google.protobuf.Empty) returns (stream OrderItem);
   rpc addOrderItem(OrderItem) returns (OrderItemResponse) {};
   rpc updateOrderItem(OrderItem) returns (google.protobuf.Empty) {};
   rpc deleteOrderItem(OrderItem) returns (google.protobuf.Empty) {};

@@ -7,8 +7,13 @@ option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
 option java_outer_classname = "FullNameProto";
 
+option csharp_namespace = "proto";
+
+package proto;
+
 service FullNameService {
   rpc getFullName(google.protobuf.Int32Value) returns (FullName) {};
+  rpc getAllFullNames(google.protobuf.Empty) returns (stream FullName);
   rpc addFullName(FullName) returns (FullNameResponse) {};
   rpc updateFullName(FullName) returns (FullNameResponse) {};
   rpc deleteFullName(FullName) returns (FullNameResponse) {};

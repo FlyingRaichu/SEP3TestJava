@@ -12,6 +12,8 @@ import via.sep4.sep4test.database.domain.DomainItem;
 import via.sep4.sep4test.database.repository.AddressRepository;
 import via.sep4.sep4test.mappers.AddressMapper;
 
+import java.util.List;
+
 @GrpcService
 public class AddressService extends AddressServiceGrpc.AddressServiceImplBase {
     private AddressRepository addressRepository;
@@ -31,6 +33,18 @@ public class AddressService extends AddressServiceGrpc.AddressServiceImplBase {
 //        responseObserver.onNext(protoAddress);
 //        responseObserver.onCompleted();
 //    }
+
+    @Override
+    public void getAllAddresses(Empty request, StreamObserver<Address> responseObserver) {
+        List<DomainAddress> domainAddresses = addressRepository.findAll();
+
+        for(DomainAddress domainAddress : domainAddresses){
+            Address protoAddress = mapper.toProto(domainAddress);
+            responseObserver.onNext(protoAddress);
+        }
+
+        responseObserver.onCompleted();
+    }
 
     @Override
     public void addAddress(Address address, StreamObserver<AddressResponse> responseObserver){

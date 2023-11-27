@@ -14,6 +14,8 @@ import via.sep4.sep4test.database.repository.ItemRepository;
 import via.sep4.sep4test.database.repository.OrderItemRepository;
 import via.sep4.sep4test.mappers.OrderItemMapper;
 
+import java.util.List;
+
 @GrpcService
 public class OrderItemService extends OrderItemServiceGrpc.OrderItemServiceImplBase {
     private OrderItemRepository orderItemRepository;
@@ -46,6 +48,18 @@ public class OrderItemService extends OrderItemServiceGrpc.OrderItemServiceImplB
         }else {
             responseObserver.onNext(response.setResponse("Order Item with the id exists").build());
         }
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getAllOrderItems(Empty request, StreamObserver<OrderItem> responseObserver) {
+        List<DomainOrderItem> orderItems = orderItemRepository.findAll();
+
+        for(DomainOrderItem domainOrderItem : orderItems){
+            OrderItem protoOrderItem = mapper.toProto(domainOrderItem);
+            responseObserver.onNext(protoOrderItem);
+        }
+
         responseObserver.onCompleted();
     }
 

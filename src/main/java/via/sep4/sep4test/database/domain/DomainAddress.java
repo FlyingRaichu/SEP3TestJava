@@ -19,11 +19,11 @@ public class DomainAddress implements Serializable {
     @Column
     private String apartmentNr;
     @Column
-    private int postalCode;
+    private String postalCode;
     @Column
     private String city;
 
-    public DomainAddress(int id, String address, String apartmentNr, int postalCode, String city) {
+    public DomainAddress(int id, String address, String apartmentNr, String postalCode, String city) {
         this.id = id;
         this.address = address;
         this.apartmentNr = apartmentNr;
@@ -58,11 +58,11 @@ public class DomainAddress implements Serializable {
         this.apartmentNr = apartmentNr;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
