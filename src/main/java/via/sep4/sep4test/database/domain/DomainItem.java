@@ -3,6 +3,8 @@ package via.sep4.sep4test.database.domain;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
