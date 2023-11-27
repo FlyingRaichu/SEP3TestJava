@@ -22,5 +22,5 @@ message Item {
   string description = 4;
   double price = 5;
   int32 stock = 6;
-  repeated string tags = 7;
+  repeated int32 tags = 7;
 }
