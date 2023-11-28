@@ -1,6 +1,7 @@
 package via.sep4.sep4test.services;
 
 import com.google.protobuf.Empty;
+import com.google.protobuf.Int32Value;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import via.sep4.protobuf.Tag;
@@ -39,11 +40,24 @@ public class TagService extends TagServiceGrpc.TagServiceImplBase {
 
     @Override
     public void updateTag(Tag request, StreamObserver<Empty> responseObserver) {
-        throw new UnsupportedOperationException("updateTag method is not yet implemented");
+        Int32Value id = Int32Value.of(request.getId());
+        DomainTag domainTag = mapper.toEntity(request);
+        DomainTag tagToDelete = tagRepository.findById(id.getValue()).orElseThrow();
+
+        tagRepository.delete(tagToDelete);
+        tagRepository.save(domainTag);
+
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
     }
 
     @Override
     public void deleteTag(Tag request, StreamObserver<Empty> responseObserver) {
-        throw new UnsupportedOperationException("deleteTag method is not yet implemented");
+        DomainTag domainTag = mapper.toEntity(request);
+
+        tagRepository.delete(domainTag);
+
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
     }
 }
