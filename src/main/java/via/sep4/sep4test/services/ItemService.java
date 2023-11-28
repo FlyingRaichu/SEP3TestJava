@@ -16,6 +16,7 @@ import via.sep4.sep4test.mappers.ItemMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @GrpcService
 public class ItemService
@@ -50,9 +51,12 @@ public class ItemService
 
         for (DomainItem domainItem : domainItems) {
             List<DomainItemTag> itemTags = itemTagRepository.findDomainItemTagsByItemId(domainItem.getId());
-            List<DomainTag> tags = new ArrayList<>();
-
+            List<Integer> tagIds = itemTags.stream()
+                    .map(DomainItemTag::getTagId)
+                    .toList();
+            System.out.println(domainItem.getManufacturer());
             Item protoItem = mapper.toProto(domainItem);
+            protoItem = protoItem.toBuilder().addAllTags(tagIds).build();
             responseObserver.onNext(protoItem);
         }
 
@@ -64,6 +68,9 @@ public class ItemService
                         StreamObserver<Empty> responseObserver) {
         DomainItem domainItem = mapper.toEntity(request);
 
+        for (int i : request.getTagsList()) {
+            itemTagRepository.save(new DomainItemTag(request.getId(), i));
+        }
 
         itemRepository.save(domainItem);
         responseObserver.onNext(Empty.newBuilder().build());
