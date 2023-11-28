@@ -30,7 +30,7 @@ public class TagService extends TagServiceGrpc.TagServiceImplBase {
     }
 
     @Override
-    public void addTags(Tag request, StreamObserver<Empty> responseObserver) {
+    public void addTag(Tag request, StreamObserver<Empty> responseObserver) {
         DomainTag domainTag = mapper.toEntity(request);
 
         tagRepository.save(domainTag);

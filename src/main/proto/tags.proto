@@ -9,7 +9,7 @@ option java_outer_classname = "TagsProto";
 
 service TagService {
   rpc getAllTags(google.protobuf.Empty) returns (stream Tag) {};
-  rpc addTags(Tag) returns (google.protobuf.Empty) {};
+  rpc addTag(Tag) returns (google.protobuf.Empty) {};
   rpc updateTag(Tag) returns (google.protobuf.Empty) {};
   rpc deleteTag(Tag) returns (google.protobuf.Empty) {};
 }
