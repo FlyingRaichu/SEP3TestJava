@@ -1,0 +1,20 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "via.sep4.protobuf";
+option java_outer_classname = "TagsProto";
+
+service TagService {
+  rpc getAllTags(google.protobuf.Empty) returns (stream Tag) {};
+  rpc addTag(Tag) returns (google.protobuf.Empty) {};
+  rpc updateTag(Tag) returns (google.protobuf.Empty) {};
+  rpc deleteTag(Tag) returns (google.protobuf.Empty) {};
+}
+
+message Tag {
+  int32 id = 1;
+  string tagName = 2;
+}
