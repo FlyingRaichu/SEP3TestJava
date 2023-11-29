@@ -11,6 +11,7 @@ service UserService {
   rpc getUser(google.protobuf.Int32Value) returns (User) {};
   rpc getAllUsers(google.protobuf.Empty) returns (stream User) {};
   rpc usernameContains(google.protobuf.StringValue) returns (User) {};
+  rpc addUser(User) returns (google.protobuf.Empty);
 }
 
 message User {
