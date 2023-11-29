@@ -1,6 +1,7 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
+import "items.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
@@ -10,9 +11,14 @@ service FavoriteService {
   rpc getFavorite(Favorite) returns (Favorite) {};
   rpc addFavorite(Favorite) returns (google.protobuf.Empty) {};
   rpc deleteFavorite(Favorite) returns (google.protobuf.Empty) {};
+  rpc getUserFavorites(FavoritesRequest) returns (stream Item) {};
 }
 
 message Favorite {
   int32 userId = 1;
   int32 itemId = 2;
+}
+
+message FavoritesRequest {
+  int32 userId = 1;
 }
