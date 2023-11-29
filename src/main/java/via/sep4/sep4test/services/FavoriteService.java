@@ -1,4 +1,5 @@
 package via.sep4.sep4test.services;
+import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import via.sep4.protobuf.Favorite;
@@ -20,10 +21,28 @@ public class FavoriteService extends FavoriteServiceGrpc.FavoriteServiceImplBase
 
     @Override public void getFavorite(Favorite favorite, StreamObserver<Favorite> responseObserver)
     {
-        DomainFavorite fav = favRepository.findByAllFields(favorite.getUserId(),favorite.getItemId());
+        DomainFavorite fav = favRepository.findByUserIdAndItemId(favorite.getUserId(),favorite.getItemId());
         Favorite protoFav = mapper.toProto(fav);
 
         responseObserver.onNext(protoFav);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void addFavorite(Favorite favorite, StreamObserver<Empty> responseObserver)
+    {
+        DomainFavorite fav = mapper.toEntity(favorite);
+        favRepository.save(fav);
+
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
+
+    @Override public void deleteFavorite(Favorite favorite, StreamObserver<Empty> responseObserver)
+    {
+        DomainFavorite fav = mapper.toEntity(favorite);
+        favRepository.delete(fav);
+
+        responseObserver.onNext(Empty.newBuilder().build());
         responseObserver.onCompleted();
     }
 }

@@ -1,14 +1,12 @@
 package via.sep4.sep4test.database.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
 @Table
+@IdClass(DomainFavorite.class)
 public class DomainFavorite implements Serializable {
     @Id
     @Column

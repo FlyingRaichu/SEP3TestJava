@@ -9,8 +9,6 @@ import via.sep4.sep4test.database.domain.DomainFavorite;
 public interface FavoriteMapper {
     FavoriteMapper INSTANCE = Mappers.getMapper(FavoriteMapper.class);
 
-    Favorite toProto(DomainFavorite Favorite);
-
-    // Method to convert from protobuf Item to domain Item
+    Favorite toProto(DomainFavorite domainFavorite);
     DomainFavorite toEntity(Favorite favorite);
 }
