@@ -8,6 +8,8 @@ import via.sep4.sep4test.database.domain.DomainFavorite;
 import via.sep4.sep4test.database.repository.FavoriteRepository;
 import via.sep4.sep4test.mappers.FavoriteMapper;
 
+import java.util.List;
+
 @GrpcService
 public class FavoriteService extends FavoriteServiceGrpc.FavoriteServiceImplBase
 {
@@ -25,6 +27,19 @@ public class FavoriteService extends FavoriteServiceGrpc.FavoriteServiceImplBase
         Favorite protoFav = mapper.toProto(fav);
 
         responseObserver.onNext(protoFav);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void getAllFavorites(Empty request, StreamObserver<Favorite> responseObserver)
+    {
+        List<DomainFavorite> favs = favRepository.findAll();
+
+        for (DomainFavorite fav : favs)
+        {
+            Favorite protoFav = mapper.toProto(fav);
+            responseObserver.onNext(protoFav);
+        }
+
         responseObserver.onCompleted();
     }
 

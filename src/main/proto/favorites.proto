@@ -8,6 +8,7 @@ option java_outer_classname = "FavoritesProto";
 
 service FavoriteService {
   rpc getFavorite(Favorite) returns (Favorite) {};
+  rpc getAllFavorites(google.protobuf.Empty) returns (stream Favorite) {};
   rpc addFavorite(Favorite) returns (google.protobuf.Empty) {};
   rpc deleteFavorite(Favorite) returns (google.protobuf.Empty) {};
 }
