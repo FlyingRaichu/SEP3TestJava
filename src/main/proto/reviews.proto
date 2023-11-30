@@ -11,6 +11,8 @@ service ReviewService {
   rpc getReview(google.protobuf.Int32Value) returns (Review) {};
   rpc getAllReviews(google.protobuf.Empty) returns (stream Review) {};
   rpc addReview(Review) returns (google.protobuf.Empty) {};
+  rpc deleteReview(Review) returns (google.protobuf.Empty);
+  rpc getAllWithId(IntListRequest) returns (stream Review);
 }
 
 message Review{
@@ -18,6 +20,10 @@ message Review{
   string content = 2;
   int32 rating = 3; //the average rating will be calculated based on the list
   string username = 4;
+}
+
+message IntListRequest{
+  repeated int32 values = 1;
 }
 
 
