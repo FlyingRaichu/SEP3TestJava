@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ItemTagRepository extends JpaRepository<DomainItemTag, Integer> {
     List<DomainItemTag> findDomainItemTagsByItemId(int id);
+    List<DomainItemTag> findDomainItemTagsByTagId(int id);
 }

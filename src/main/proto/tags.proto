@@ -12,9 +12,14 @@ service TagService {
   rpc addTag(Tag) returns (google.protobuf.Empty) {};
   rpc updateTag(Tag) returns (google.protobuf.Empty) {};
   rpc deleteTag(Tag) returns (google.protobuf.Empty) {};
+  rpc getAllWithId(IntListRequest) returns (stream Tag) {};
 }
 
 message Tag {
   int32 id = 1;
   string tagName = 2;
+}
+
+message IntListRequest{
+  repeated int32 values = 1;
 }
