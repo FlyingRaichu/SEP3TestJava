@@ -25,13 +25,19 @@ public class DomainItem implements Serializable
   @Column
   private int stock;
 
-  public DomainItem(int id, String title, String description, double price, String manufacturer, int stock) {
+  @OneToMany
+  @JoinColumn(name="itemId")
+  private List<DomainReview> reviews;
+
+
+  public DomainItem(int id, String title, String description, double price, String manufacturer, int stock, List<DomainReview> reviews) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.price = price;
     this.manufacturer = manufacturer;
     this.stock = stock;
+    this.reviews = reviews;
   }
 
   public DomainItem() {
@@ -84,5 +90,13 @@ public class DomainItem implements Serializable
 
   public void setStock(int stock) {
     this.stock = stock;
+  }
+
+  public List<DomainReview> getReviews() {
+    return reviews;
+  }
+
+  public void setReviews(List<DomainReview> reviews) {
+    this.reviews = reviews;
   }
 }
