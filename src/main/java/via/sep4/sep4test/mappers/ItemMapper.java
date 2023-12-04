@@ -11,7 +11,6 @@ import via.sep4.sep4test.database.domain.DomainItem;
   ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
 
   // Method to convert from domain Item to protobuf Item
-//  @Mapping(target = "tags", ignore = true)
   Item toProto(DomainItem domainItem);
 
   // Method to convert from protobuf Item to domain Item

@@ -13,7 +13,6 @@ public class DomainItem implements Serializable
   @Id
   @Column
   private int id;
-
   @Column
   private String title;
   @Column

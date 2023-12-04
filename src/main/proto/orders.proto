@@ -1,0 +1,32 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "orderItems.proto";
+
+option java_multiple_files = true;
+option java_package = "via.sep4.protobuf";
+option java_outer_classname = "OrdersProto";
+
+service OrderService {
+  rpc getAllOrders(google.protobuf.Empty) returns (stream Order) {};
+  rpc addOrder(Order) returns (google.protobuf.Empty) {};
+  rpc updateOrder(Order) returns (google.protobuf.Empty) {};
+  rpc deleteOrder(Order) returns (google.protobuf.Empty) {};
+  rpc addItemToOrder(OrderItem) returns (google.protobuf.Empty) {};
+  rpc updateItemInOrder(OrderItem) returns (google.protobuf.Empty) {};
+  rpc deleteItemFromOrder(OrderItem) returns (google.protobuf.Empty) {};
+}
+
+message Order {
+  int32 id = 1;
+  string fullName = 2;
+  int32 postcode = 3;
+  string address = 4;
+  string city = 5;
+  int32 phoneNumber = 6;
+  string status = 7;
+  string date = 8;
+  repeated OrderItem itemList = 9;
+
+}
