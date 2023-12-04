@@ -50,7 +50,6 @@ public class ItemService
             List<Integer> tagIds = itemTags.stream()
                     .map(DomainItemTag::getTagId)
                     .toList();
-            System.out.println(domainItem.getManufacturer());
             Item protoItem = mapper.toProto(domainItem);
             protoItem = protoItem.toBuilder().addAllTags(tagIds).build();
             responseObserver.onNext(protoItem);
