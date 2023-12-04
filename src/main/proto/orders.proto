@@ -26,7 +26,6 @@ message Order {
   string city = 5;
   int32 phoneNumber = 6;
   string status = 7;
-  string date = 8;
-  repeated OrderItem itemList = 9;
-
+  string date = 8; //TODO Fix this
+  repeated OrderItem items = 9;
 }
