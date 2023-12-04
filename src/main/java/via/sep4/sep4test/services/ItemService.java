@@ -8,15 +8,11 @@ import via.sep4.protobuf.Item;
 import via.sep4.protobuf.ItemServiceGrpc;
 import via.sep4.sep4test.database.domain.DomainItem;
 import via.sep4.sep4test.database.domain.DomainItemTag;
-import via.sep4.sep4test.database.domain.DomainTag;
 import via.sep4.sep4test.database.repository.ItemRepository;
 import via.sep4.sep4test.database.repository.ItemTagRepository;
 import via.sep4.sep4test.database.repository.TagRepository;
 import via.sep4.sep4test.mappers.ItemMapper;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @GrpcService
 public class ItemService
