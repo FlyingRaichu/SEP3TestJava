@@ -4,7 +4,6 @@ import com.google.protobuf.Timestamp;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import via.sep4.protobuf.Order;
-import via.sep4.protobuf.ProtoDate;
 import via.sep4.sep4test.database.domain.DomainOrder;
 
 import java.text.ParseException;
