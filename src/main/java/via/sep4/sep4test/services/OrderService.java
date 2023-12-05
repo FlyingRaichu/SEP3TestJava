@@ -23,7 +23,7 @@ public class OrderService
     private OrderItemRepository orderItemRepository;
     private OrderRepository orderRepository;
     private final OrderMapper orderMapper = OrderMapper.INSTANCE;
-    private final OrderItemMapper orderItemMapper = OrderItemMapper.INSTANCE.INSTANCE;
+    private final OrderItemMapper orderItemMapper = OrderItemMapper.INSTANCE;
 
     public OrderService(OrderItemRepository orderItemRepository,
                         OrderRepository orderRepository) {
@@ -64,8 +64,6 @@ public class OrderService
         }
 
         domainOrder.setOrderItems(orderItems);
-        System.out.println(request.getItemsList().get(0));
-        System.out.println(domainOrder.getOrderItems().get(0));
         orderRepository.save(domainOrder);
         orderItemRepository.saveAll(domainOrder.getOrderItems());
 
