@@ -50,7 +50,6 @@ public class ItemService
             List<Integer> tagIds = itemTags.stream()
                     .map(DomainItemTag::getTagId)
                     .toList();
-            System.out.println(domainItem.getManufacturer());
             Item protoItem = mapper.toProto(domainItem);
             protoItem = protoItem.toBuilder().addAllTags(tagIds).build();
             responseObserver.onNext(protoItem);
@@ -79,8 +78,15 @@ public class ItemService
         Int32Value id = Int32Value.of(request.getId());
         DomainItem domainItem = mapper.toEntity(request);
         DomainItem itemToDelete = itemRepository.findById(id.getValue()).orElseThrow(RuntimeException::new);
+        List<DomainItemTag> domainItemTag = itemTagRepository.findDomainItemTagsByItemId(request.getId());
 
         itemRepository.delete(itemToDelete);
+        itemTagRepository.deleteAll(domainItemTag);
+
+        for (int i : request.getTagsList()) {
+            itemTagRepository.save(new DomainItemTag(request.getId(), i));
+        }
+
         itemRepository.save(domainItem);
 
         responseObserver.onNext(Empty.newBuilder().build());
