@@ -7,7 +7,7 @@ import via.sep4.sep4test.database.domain.DomainOrderItem;
 
 import java.util.List;
 
-@Mapper(uses = OrderItemMapper.class)
+@Mapper(uses = {OrderMapper.class})
 public interface OrderItemMapper {
     OrderItemMapper INSTANCE = Mappers.getMapper(OrderItemMapper.class);
 

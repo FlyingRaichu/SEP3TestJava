@@ -14,110 +14,126 @@ import via.sep4.sep4test.database.repository.OrderRepository;
 import via.sep4.sep4test.mappers.OrderItemMapper;
 import via.sep4.sep4test.mappers.OrderMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@GrpcService public class OrderService
-    extends OrderServiceGrpc.OrderServiceImplBase
-{
-  private OrderItemRepository orderItemRepository;
-  private OrderRepository orderRepository;
-  private final OrderMapper orderMapper = OrderMapper.INSTANCE;
-  private final OrderItemMapper orderItemMapper = OrderItemMapper.INSTANCE.INSTANCE;
+@GrpcService
+public class OrderService
+        extends OrderServiceGrpc.OrderServiceImplBase {
+    private OrderItemRepository orderItemRepository;
+    private OrderRepository orderRepository;
+    private final OrderMapper orderMapper = OrderMapper.INSTANCE;
+    private final OrderItemMapper orderItemMapper = OrderItemMapper.INSTANCE.INSTANCE;
 
-  public OrderService(OrderItemRepository orderItemRepository,
-      OrderRepository orderRepository) {
-    this.orderItemRepository = orderItemRepository;
-    this.orderRepository = orderRepository;
-  }
-
-  @Override public void getAllOrders(Empty request,
-      StreamObserver<Order> responseObserver) {
-    List<DomainOrder> domainOrders = orderRepository.findAll();
-
-    for (DomainOrder domainOrder : domainOrders) {
-      List<DomainOrderItem> orderItems = orderItemRepository.findDomainOrderItemsByOrder(
-          domainOrder);
-      List<OrderItem> orderItemProtoList = orderItemMapper.toProtoList(
-          orderItems);
-
-      Order protoOrder = orderMapper.toProto(domainOrder);
-      protoOrder = protoOrder.toBuilder().addAllItems(orderItemProtoList)
-          .build();
-      responseObserver.onNext(protoOrder);
+    public OrderService(OrderItemRepository orderItemRepository,
+                        OrderRepository orderRepository) {
+        this.orderItemRepository = orderItemRepository;
+        this.orderRepository = orderRepository;
     }
 
-    responseObserver.onCompleted();
-  }
+    @Override
+    public void getAllOrders(Empty request,
+                             StreamObserver<Order> responseObserver) {
+        List<DomainOrder> domainOrders = orderRepository.findAll();
 
-  @Override public void addOrder(Order request,
-      StreamObserver<Empty> responseObserver) {
-    DomainOrder domainOrder = orderMapper.toEntity(request);
-    orderItemRepository.saveAll(domainOrder.getOrderItems());
+        for (DomainOrder domainOrder : domainOrders) {
+            List<DomainOrderItem> orderItems = orderItemRepository.findDomainOrderItemsByOrder(
+                    domainOrder);
+            List<OrderItem> orderItemProtoList = orderItemMapper.toProtoList(
+                    orderItems);
 
-    orderRepository.save(domainOrder);
-    responseObserver.onNext(Empty.newBuilder().build());
-    responseObserver.onCompleted();
-  }
+            Order protoOrder = orderMapper.toProto(domainOrder);
+            protoOrder = protoOrder.toBuilder().addAllItems(orderItemProtoList)
+                    .build();
+            responseObserver.onNext(protoOrder);
+        }
 
-  @Override public void updateOrder(Order request,
-      StreamObserver<Empty> responseObserver) {
-    Int32Value id = Int32Value.of(request.getId());
-    List<DomainOrderItem> orderItems = orderItemMapper.toEntityList(
-        request.getItemsList());
-    DomainOrder order = orderMapper.toEntity(request);
-    order.setOrderItems(orderItems);
-    DomainOrder orderToDelete = orderRepository.findById(id.getValue())
-        .orElseThrow(RuntimeException::new);
+        responseObserver.onCompleted();
+    }
 
-    orderRepository.delete(orderToDelete);
-    orderRepository.save(order);
+    @Override
+    public void addOrder(Order request,
+                         StreamObserver<Empty> responseObserver) {
+        DomainOrder domainOrder = orderMapper.toEntity(request);
+        List<DomainOrderItem> orderItems = new ArrayList<>();
+        for (OrderItem item : request.getItemsList()
+        ) {
+            DomainOrderItem domainOrderItem = orderItemMapper.toEntity(item);
+            domainOrderItem.setOrder(orderRepository.getById(request.getId()));
+            orderItems.add(domainOrderItem);
+        }
 
-    responseObserver.onNext(Empty.newBuilder().build());
-    responseObserver.onCompleted();
-  }
+        domainOrder.setOrderItems(orderItems);
+        System.out.println(request.getItemsList().get(0));
+        System.out.println(domainOrder.getOrderItems().get(0));
+        orderRepository.save(domainOrder);
+        orderItemRepository.saveAll(domainOrder.getOrderItems());
 
-  @Override public void deleteOrder(Order request,
-      StreamObserver<Empty> responseObserver) {
-    DomainOrder domainOrder = orderMapper.toEntity(request);
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
 
-    orderItemRepository.deleteAll(domainOrder.getOrderItems());
-    orderRepository.delete(domainOrder);
+    @Override
+    public void updateOrder(Order request,
+                            StreamObserver<Empty> responseObserver) {
+        Int32Value id = Int32Value.of(request.getId());
+        DomainOrder order = orderMapper.toEntity(request);
+        DomainOrder orderToDelete = orderRepository.findById(id.getValue())
+                .orElseThrow(RuntimeException::new);
 
-    responseObserver.onNext(Empty.newBuilder().build());
-    responseObserver.onCompleted();
-  }
+        orderRepository.delete(orderToDelete);
+        orderRepository.save(order);
 
-  @Override public void addItemToOrder(OrderItem request,
-      StreamObserver<Empty> responseObserver) {
-    DomainOrderItem itemToSave = orderItemMapper.toEntity(request);
-    itemToSave.setOrder(orderRepository.findById(request.getOrderId()).orElseThrow());
-    orderItemRepository.save(itemToSave);
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
 
-    responseObserver.onNext(Empty.newBuilder().build());
-    responseObserver.onCompleted();
-  }
+    @Override
+    public void deleteOrder(Order request,
+                            StreamObserver<Empty> responseObserver) {
+        DomainOrder domainOrder = orderMapper.toEntity(request);
 
-  @Override public void updateItemInOrder(OrderItem request,
-      StreamObserver<Empty> responseObserver) {
-    Int32Value id = Int32Value.of(request.getId());
-    DomainOrderItem itemToSave = orderItemMapper.toEntity(request);
-    itemToSave.setOrder(orderRepository.findById(request.getOrderId()).orElseThrow());
-    DomainOrderItem itemToDelete = orderItemRepository.findById(id.getValue()).orElseThrow();
+        orderItemRepository.deleteAll(domainOrder.getOrderItems());
+        orderRepository.delete(domainOrder);
 
-    orderItemRepository.delete(itemToDelete);
-    orderItemRepository.save(itemToSave);
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
 
-    responseObserver.onNext(Empty.newBuilder().build());
-    responseObserver.onCompleted();
-  }
+    @Override
+    public void addItemToOrder(OrderItem request,
+                               StreamObserver<Empty> responseObserver) {
+        DomainOrderItem itemToSave = orderItemMapper.toEntity(request);
+        itemToSave.setOrder(orderRepository.findById(request.getOrderId()).orElseThrow());
+        orderItemRepository.save(itemToSave);
 
-  @Override public void deleteItemFromOrder(OrderItem request,
-      StreamObserver<Empty> responseObserver) {
-    DomainOrderItem domainOrderItem = orderItemMapper.toEntity(request);
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
 
-    orderItemRepository.delete(domainOrderItem);
+    @Override
+    public void updateItemInOrder(OrderItem request,
+                                  StreamObserver<Empty> responseObserver) {
+        Int32Value id = Int32Value.of(request.getId());
+        DomainOrderItem itemToSave = orderItemMapper.toEntity(request);
+        itemToSave.setOrder(orderRepository.findById(request.getOrderId()).orElseThrow());
+        DomainOrderItem itemToDelete = orderItemRepository.findById(id.getValue()).orElseThrow();
 
-    responseObserver.onNext(Empty.newBuilder().build());
-    responseObserver.onCompleted();
-  }
+        orderItemRepository.delete(itemToDelete);
+        orderItemRepository.save(itemToSave);
+
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void deleteItemFromOrder(OrderItem request,
+                                    StreamObserver<Empty> responseObserver) {
+        DomainOrderItem domainOrderItem = orderItemMapper.toEntity(request);
+
+        orderItemRepository.delete(domainOrderItem);
+
+        responseObserver.onNext(Empty.newBuilder().build());
+        responseObserver.onCompleted();
+    }
 }

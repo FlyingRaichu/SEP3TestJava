@@ -3,6 +3,7 @@ syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 import "orderItems.proto";
+import "protoDates.proto";
 
 option java_multiple_files = true;
 option java_package = "via.sep4.protobuf";
@@ -20,12 +21,12 @@ service OrderService {
 
 message Order {
   int32 id = 1;
-  string fullName = 2;
-  int32 postcode = 3;
+  string orderFullName = 2;
+  int32 postCode = 3;
   string address = 4;
   string city = 5;
   int32 phoneNumber = 6;
   string status = 7;
-  string date = 8; //TODO Fix this
+  string date = 8;
   repeated OrderItem items = 9;
 }

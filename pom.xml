@@ -69,6 +69,11 @@
             <version>1.4.2.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <version>${protobuf.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
