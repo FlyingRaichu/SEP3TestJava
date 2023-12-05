@@ -25,9 +25,8 @@ public class DomainItem implements Serializable
   @Column
   private int stock;
 
-  @OneToMany
-  @JoinColumn(name="itemId")
-  private List<DomainReview> reviews;
+//  @OneToMany(mappedBy = "item")
+//  private List<DomainReview> reviews;
 
 
   public DomainItem(int id, String title, String description, double price, String manufacturer, int stock, List<DomainReview> reviews) {
@@ -37,7 +36,7 @@ public class DomainItem implements Serializable
     this.price = price;
     this.manufacturer = manufacturer;
     this.stock = stock;
-    this.reviews = reviews;
+    //this.reviews = reviews;
   }
 
   public DomainItem() {
@@ -92,11 +91,11 @@ public class DomainItem implements Serializable
     this.stock = stock;
   }
 
-  public List<DomainReview> getReviews() {
-    return reviews;
-  }
-
-  public void setReviews(List<DomainReview> reviews) {
-    this.reviews = reviews;
-  }
+//  public List<DomainReview> getReviews() {
+//    return reviews;
+//  }
+//
+//  public void setReviews(List<DomainReview> reviews) {
+//    this.reviews = reviews;
+//  }
 }

@@ -7,7 +7,7 @@ import via.sep4.sep4test.database.domain.DomainReview;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = ItemMapper.class)
 public interface ReviewMapper {
     ReviewMapper INSTANCE = Mappers.getMapper(ReviewMapper.class);
 
