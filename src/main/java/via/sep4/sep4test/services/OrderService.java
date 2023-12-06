@@ -55,17 +55,21 @@ public class OrderService
     public void addOrder(Order request,
                          StreamObserver<Empty> responseObserver) {
         DomainOrder domainOrder = orderMapper.toEntity(request);
+        orderRepository.save(domainOrder);
         List<DomainOrderItem> orderItems = new ArrayList<>();
-        for (OrderItem item : request.getItemsList()
-        ) {
-            DomainOrderItem domainOrderItem = orderItemMapper.toEntity(item);
-            domainOrderItem.setOrder(orderRepository.getById(request.getId()));
-            orderItems.add(domainOrderItem);
+        if (!request.getItemsList().isEmpty()) {
+            for (OrderItem item : request.getItemsList()) {
+                DomainOrderItem domainOrderItem = orderItemMapper.toEntity(item);
+                domainOrderItem.setOrder(orderRepository.getById(request.getId()));
+                domainOrderItem.setId(orderItemRepository.findAll().size()+1);
+                orderItems.add(domainOrderItem);
+            }
+            domainOrder.setOrderItems(orderItems);
+            orderItemRepository.saveAll(domainOrder.getOrderItems());
         }
 
-        domainOrder.setOrderItems(orderItems);
-        orderRepository.save(domainOrder);
-        orderItemRepository.saveAll(domainOrder.getOrderItems());
+
+
 
         responseObserver.onNext(Empty.newBuilder().build());
         responseObserver.onCompleted();
