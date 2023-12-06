@@ -122,6 +122,14 @@ public class DomainOrder implements Serializable {
         this.orderItems = orderItems;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "DomainOrder{" +
