@@ -2,13 +2,14 @@ package via.sep4.sep4test.database.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table
-public class DomainOrder {
+public class DomainOrder implements Serializable {
     @Id
     @Column
     private int id;
@@ -21,7 +22,7 @@ public class DomainOrder {
     @Column
     String city;
     @Column
-    int phoneNumber;
+    long phoneNumber;
     @Column
     String status;
     @Column
@@ -29,9 +30,12 @@ public class DomainOrder {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DomainOrderItem> orderItems = new ArrayList<>();
 
+    @Column
+    int userId;
+
     public DomainOrder(int id, String orderFullName, int postCode, String address,
-                       String city, int phoneNumber, String status, Date date,
-                       List<DomainOrderItem> orderItems) {
+                       String city, long phoneNumber, String status, Date date,
+                       List<DomainOrderItem> orderItems, int userId) {
         this.id = id;
         this.orderFullName = orderFullName;
         this.postCode = postCode;
@@ -41,6 +45,7 @@ public class DomainOrder {
         this.status = status;
         this.date = date;
         this.orderItems = orderItems;
+        this.userId = userId;
     }
 
     public DomainOrder() {}
@@ -85,11 +90,11 @@ public class DomainOrder {
         this.city = city;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -115,5 +120,21 @@ public class DomainOrder {
 
     public void setOrderItems(List<DomainOrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    @Override
+    public String toString() {
+        return "DomainOrder{" +
+                "id=" + id +
+                ", orderFullName='" + orderFullName + '\'' +
+                ", postCode=" + postCode +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", status='" + status + '\'' +
+                ", date=" + date +
+                ", orderItems=" + orderItems +
+                ", userId=" + userId +
+                '}';
     }
 }
