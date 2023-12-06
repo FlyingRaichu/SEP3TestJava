@@ -24,8 +24,9 @@ message Order {
   int32 postCode = 3;
   string address = 4;
   string city = 5;
-  int32 phoneNumber = 6;
+  int64 phoneNumber = 6;
   string status = 7;
   string date = 8;
   repeated OrderItem items = 9;
+  int32 userId = 10;
 }

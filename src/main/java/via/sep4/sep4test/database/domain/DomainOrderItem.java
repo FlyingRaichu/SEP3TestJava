@@ -2,10 +2,13 @@ package via.sep4.sep4test.database.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table
-public class DomainOrderItem {
+public class DomainOrderItem implements Serializable {
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
     @Column
@@ -55,6 +58,16 @@ public class DomainOrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "DomainOrderItem{" +
+                "id=" + id +
+                ", itemId=" + itemId +
+                ", order=" + order +
+                ", quantity=" + quantity +
+                '}';
     }
 }
 

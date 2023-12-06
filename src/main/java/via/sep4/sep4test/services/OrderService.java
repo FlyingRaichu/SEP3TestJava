@@ -79,9 +79,10 @@ public class OrderService
     public void updateOrder(Order request,
                             StreamObserver<Empty> responseObserver) {
         Int32Value id = Int32Value.of(request.getId());
-        DomainOrder order = orderMapper.toEntity(request);
         DomainOrder orderToDelete = orderRepository.findById(id.getValue())
                 .orElseThrow(RuntimeException::new);
+        DomainOrder order = orderMapper.toEntity(request);
+        order.setId(orderToDelete.getId());
 
         orderRepository.delete(orderToDelete);
         orderRepository.save(order);
@@ -107,6 +108,7 @@ public class OrderService
                                StreamObserver<Empty> responseObserver) {
         DomainOrderItem itemToSave = orderItemMapper.toEntity(request);
         itemToSave.setOrder(orderRepository.findById(request.getOrderId()).orElseThrow());
+        itemToSave.setId(orderItemRepository.findAll().size()+1);
         orderItemRepository.save(itemToSave);
 
         responseObserver.onNext(Empty.newBuilder().build());
