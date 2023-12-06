@@ -24,14 +24,16 @@ public class DomainItem implements Serializable
   private String manufacturer;
   @Column
   private int stock;
+  @Column double discountPercentage;
 
-  public DomainItem(int id, String title, String description, double price, String manufacturer, int stock) {
+  public DomainItem(int id, String title, String description, double price, String manufacturer, int stock, double discountPercentage) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.price = price;
     this.manufacturer = manufacturer;
     this.stock = stock;
+    this.discountPercentage = discountPercentage;
   }
 
   public DomainItem() {
@@ -78,11 +80,19 @@ public class DomainItem implements Serializable
     this.manufacturer = manufacturer;
   }
 
+
   public int getStock() {
     return stock;
   }
 
   public void setStock(int stock) {
     this.stock = stock;
+  }
+  public double getDiscountPercentage() {
+    return discountPercentage;
+  }
+
+  public void setDiscountPercentage(double discountPercentage) {
+    this.discountPercentage = discountPercentage;
   }
 }
