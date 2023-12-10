@@ -13,6 +13,7 @@ public class DomainItem implements Serializable
   @Id
   @Column
   private int id;
+
   @Column
   private String title;
   @Column
@@ -23,6 +24,7 @@ public class DomainItem implements Serializable
   private String manufacturer;
   @Column
   private int stock;
+  @Column double discountPercentage;
 
 //  @OneToMany(mappedBy = "item")
 //  private List<DomainReview> reviews;
@@ -35,6 +37,7 @@ public class DomainItem implements Serializable
     this.price = price;
     this.manufacturer = manufacturer;
     this.stock = stock;
+    this.discountPercentage = discountPercentage;
     //this.reviews = reviews;
   }
 
@@ -89,12 +92,18 @@ public class DomainItem implements Serializable
   public void setStock(int stock) {
     this.stock = stock;
   }
+  public double getDiscountPercentage() {
+    return discountPercentage;
+  }
 
-//  public List<DomainReview> getReviews() {
-//    return reviews;
-//  }
-//
-//  public void setReviews(List<DomainReview> reviews) {
-//    this.reviews = reviews;
-//  }
+  public void setDiscountPercentage(double discountPercentage) {
+    this.discountPercentage = discountPercentage;
+  }
+  //  public List<DomainReview> getReviews() {
+  //    return reviews;
+  //  }
+  //
+  //  public void setReviews(List<DomainReview> reviews) {
+  //    this.reviews = reviews;
+  //  }
 }
