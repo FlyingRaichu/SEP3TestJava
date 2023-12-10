@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<DomainReview, Integer> {
     List<DomainReview> findDomainReviewByItem(DomainItem domainItem);
+    List<DomainReview> findDomainReviewsByItem(DomainItem id);
 }
