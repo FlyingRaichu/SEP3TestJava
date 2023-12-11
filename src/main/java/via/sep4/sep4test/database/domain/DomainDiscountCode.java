@@ -46,11 +46,11 @@ public class DomainDiscountCode implements Serializable {
     this.code = code;
   }
 
-  public int getDiscount() {
+  public int getDiscountPercentage() {
     return discountPercentage;
   }
 
-  public void setDiscount(int discount) {
-    this.discountPercentage = discount;
+  public void setDiscountPercentage(int discountPercentage) {
+    this.discountPercentage = discountPercentage;
   }
 }

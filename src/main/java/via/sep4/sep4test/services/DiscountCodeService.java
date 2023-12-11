@@ -47,7 +47,8 @@ public class DiscountCodeService extends DiscountCodeServiceGrpc.DiscountCodeSer
     responseObserver.onCompleted();
   }
   @Override
-  public void addDiscountCode(DiscountCode request, StreamObserver<Empty> responseObserver) {
+  public void addDiscountCode(DiscountCode request,
+      StreamObserver<Empty> responseObserver) {
     DomainDiscountCode domainDiscountCode = mapper.toEntity(request);
 
     discountCodeRepository.save(domainDiscountCode);
