@@ -8,8 +8,10 @@ import via.sep4.protobuf.Item;
 import via.sep4.protobuf.ItemServiceGrpc;
 import via.sep4.sep4test.database.domain.DomainItem;
 import via.sep4.sep4test.database.domain.DomainItemTag;
+import via.sep4.sep4test.database.domain.DomainReview;
 import via.sep4.sep4test.database.repository.ItemRepository;
 import via.sep4.sep4test.database.repository.ItemTagRepository;
+import via.sep4.sep4test.database.repository.ReviewRepository;
 import via.sep4.sep4test.database.repository.TagRepository;
 import via.sep4.sep4test.mappers.ItemMapper;
 import java.util.List;
@@ -20,13 +22,15 @@ public class ItemService
     private ItemRepository itemRepository;
     private TagRepository tagRepository;
     private ItemTagRepository itemTagRepository;
+    private ReviewRepository reviewRepository;
     private final ItemMapper mapper = ItemMapper.INSTANCE;
 
 
-    public ItemService(ItemRepository itemRepository, TagRepository tagRepository, ItemTagRepository itemTagRepository) {
+    public ItemService(ItemRepository itemRepository, TagRepository tagRepository, ItemTagRepository itemTagRepository, ReviewRepository reviewRepository) {
         this.itemRepository = itemRepository;
         this.tagRepository = tagRepository;
         this.itemTagRepository = itemTagRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
@@ -79,6 +83,10 @@ public class ItemService
         DomainItem domainItem = mapper.toEntity(request);
         DomainItem itemToDelete = itemRepository.findById(id.getValue()).orElseThrow(RuntimeException::new);
         List<DomainItemTag> domainItemTag = itemTagRepository.findDomainItemTagsByItemId(request.getId());
+        List<DomainReview> reviews = reviewRepository.findDomainReviewsByItem(itemToDelete);
+
+        reviewRepository.deleteAll(reviews);
+
 
         itemRepository.delete(itemToDelete);
         itemTagRepository.deleteAll(domainItemTag);
@@ -88,6 +96,7 @@ public class ItemService
         }
 
         itemRepository.save(domainItem);
+        reviewRepository.saveAll(reviews);
 
         responseObserver.onNext(Empty.newBuilder().build());
         responseObserver.onCompleted();

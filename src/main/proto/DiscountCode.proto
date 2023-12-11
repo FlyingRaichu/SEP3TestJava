@@ -1,0 +1,21 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "via.sep4.protobuf";
+option java_outer_classname = "DiscountCodeProto";
+
+
+service DiscountCodeService {
+  rpc getDiscountCode(google.protobuf.Int32Value) returns (DiscountCode) {};
+  rpc getAllDiscountCodes(google.protobuf.Empty) returns (stream DiscountCode) {};
+  rpc addDiscountCode(DiscountCode) returns (google.protobuf.Empty) {};
+  rpc deleteDiscountCode(DiscountCode) returns (google.protobuf.Empty) {};
+}
+
+message DiscountCode {
+  int32 id = 1;
+  string code = 2;
+  int32 discountPercentage = 3;
+}

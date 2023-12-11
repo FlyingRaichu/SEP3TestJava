@@ -63,9 +63,9 @@ public class OrderService
                 domainOrderItem.setOrder(orderRepository.getById(request.getId()));
                 domainOrderItem.setId(orderItemRepository.findAll().size()+1);
                 orderItems.add(domainOrderItem);
+                orderItemRepository.save(domainOrderItem);
             }
             domainOrder.setOrderItems(orderItems);
-            orderItemRepository.saveAll(domainOrder.getOrderItems());
         }
 
 
